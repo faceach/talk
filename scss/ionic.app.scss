@@ -19,15 +19,14 @@ $dark:                            #444 !default;
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Override
-$light:                           #fff !default;
-$stable:                          #f8f8f8 !default;
+
+// Colors
+// -------------------------------
 $positive:                        #FFA719;
-$calm:                            #11c1f3 !default;
-$balanced:                        #33cd5f !default;
-$energized:                       #ffc900 !default;
-$assertive:                       #ef473a !default;
-$royal:                           #886aea !default;
-$dark:                            #444 !default;
+
+// Toggle
+// -------------------------------
+$toggle-on-default-bg:            #00A1F1;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";

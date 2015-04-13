@@ -6036,8 +6036,8 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
   margin: -5px;
   padding: 5px; }
   .toggle input:checked + .track {
-    border-color: #4cd964;
-    background-color: #4cd964; }
+    border-color: #00A1F1;
+    background-color: #00A1F1; }
   .toggle.dragging .handle {
     background-color: #f2f2f2 !important; }
 

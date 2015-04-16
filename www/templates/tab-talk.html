@@ -1,5 +1,40 @@
 <ion-view view-title="Talk">
-  <ion-content>
-    <h2>Talk</h2>
-  </ion-content>
+    <ion-content>
+        <div class="list card">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" ng-model="newword" placeholder="Tourch to enter text">
+            </label>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#">
+                    <i class="icon ion-android-search"></i>
+                </a>
+                <a class="tab-item" href="#">
+                    <i class="icon ion-android-microphone"></i>
+                </a>
+            </div>
+        </div>
+        <div class="list card">
+            <div class="item item-body">
+                <p style="min-height: 100px;">
+                    {{newword}}
+                </p>
+                <p>
+                    <a href="#" class="subdued">1 Like</a>
+                    <a href="#" class="subdued">5 Collect</a>
+                </p>
+            </div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#">
+                    <i class="icon ion-thumbsup"></i> Like
+                </a>
+                <a class="tab-item" href="#">
+                    <i class="icon ion-ios-star"></i> Collect
+                </a>
+                <a class="tab-item" href="#">
+                    <i class="icon ion-share"></i> Share
+                </a>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

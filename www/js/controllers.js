@@ -1,7 +1,19 @@
 angular.module('starter.controllers', [])
 
-.controller('TalkCtrl', function($scope) {
-	//
+.controller('TalkCtrl', function($scope, Talk) {
+	$scope.newWordTranslation = {
+		"text": ""
+	};
+
+	$scope.input = function(){
+		var me = $scope;
+
+		function callback(translation){
+			console.log("Callback: " + translation);
+			me.newWordTranslation.text = translation;
+		}
+		Talk.translator(me.$$childHead.newWord, callback);
+	}
 })
 
 .controller('StarsCtrl', function($scope, Stars) {

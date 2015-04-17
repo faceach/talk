@@ -12,7 +12,13 @@ angular.module('starter.controllers', [])
 			console.log("Callback: " + translation);
 			me.newWordTranslation.text = translation;
 		}
-		Talk.translator(me.$$childHead.newWord, callback);
+
+		//Talk.translator(me.$$childHead.newWord, callback);
+
+		Talk.translator(me.$$childHead.newWord).then(function(translation){
+			console.log("Callback: " + translation);
+			me.newWordTranslation.text = translation;
+		});
 	}
 })
 

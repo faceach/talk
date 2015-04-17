@@ -1,8 +1,8 @@
 angular.module('starter.services', [])
 
-.factory('Talk', function() {
+.factory('Talk', ['$http', '$q', function($http, $q) {
 
-  var bingAccessToken = "http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=watermelon2014&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fdatamarket.accesscontrol.windows.net%2f&Audience=http%3a%2f%2fapi.microsofttranslator.com&ExpiresOn=1429187025&Issuer=https%3a%2f%2fdatamarket.accesscontrol.windows.net%2f&HMACSHA256=vj6uNCKaLf9EQgU1r7UjS5eC3bIN%2fKp3Ctog63tdC%2b8%3d";
+  var bingAccessToken = "http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=watermelon2014&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fdatamarket.accesscontrol.windows.net%2f&Audience=http%3a%2f%2fapi.microsofttranslator.com&ExpiresOn=1429269425&Issuer=https%3a%2f%2fdatamarket.accesscontrol.windows.net%2f&HMACSHA256=xlTy2xYTPUsp%2fkwjYex%2bbITxwD1oGmi6h5UEYR%2b%2beoY%3d";
 
   function scriptTranslateRequest(token, text) {
     var from = "en",
@@ -36,9 +36,14 @@ angular.module('starter.services', [])
       "&from=" + encodeURIComponent(from) +
       "&to=" + encodeURIComponent(to) +
       "&text=" + encodeURIComponent(text) +
-      "&oncomplete=mycallback";
+      "&oncomplete=JSON_CALLBACK";
 
-    ajax(url, "Bearer " + token);
+    return $q(function(resolve, reject) {
+      $http.jsonp(url).success(function(data) {
+        console.log("Translation via JSONP: " + data);
+        resolve(data);
+      })
+    });
   }
 
   return {
@@ -46,17 +51,20 @@ angular.module('starter.services', [])
       newWord = newWord || "anything";
       console.log("EN: " + newWord);
 
-      window.mycallback = function(response) {
-        console.log("CN: " + response);
-        callback(response);
+      if (callback) {
+        window.mycallback = function(response) {
+          console.log("CN: " + response);
+          callback(response);
+        }
+        scriptTranslateRequest(bingAccessToken, newWord);
+        return;
       }
 
-      scriptTranslateRequest(bingAccessToken, newWord);
-      //ajaxTranslateRequest(bingAccessToken, newWord);
+      return ajaxTranslateRequest(bingAccessToken, newWord);
     }
   };
 
-})
+}])
 
 .factory('Stars', function() {
   // Might use a resource here that returns a JSON array

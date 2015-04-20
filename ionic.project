@@ -1,6 +1,16 @@
 {
   "name": "talk",
   "app_id": "68e4d4ad",
+  "proxies": [
+    {
+      "path": "/api/bingTranslator",
+      "proxyUrl": "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13"
+    },
+    {
+      "path": "/api/bingTranslator/speak",
+      "proxyUrl": "http://api.microsofttranslator.com/V2/Http.svc/Speak"
+    }
+  ],
   "gulpStartupTasks": [
     "sass",
     "watch"

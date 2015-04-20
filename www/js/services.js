@@ -1,69 +1,10 @@
-angular.module('starter.services', [])
+angular.module('starter.services', ['bingTranslator'])
 
-.factory('Talk', ['$http', '$q', function($http, $q) {
-
-  var bingAccessToken = "http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=watermelon2014&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fdatamarket.accesscontrol.windows.net%2f&Audience=http%3a%2f%2fapi.microsofttranslator.com&ExpiresOn=1429269425&Issuer=https%3a%2f%2fdatamarket.accesscontrol.windows.net%2f&HMACSHA256=xlTy2xYTPUsp%2fkwjYex%2bbITxwD1oGmi6h5UEYR%2b%2beoY%3d";
-
-  function scriptTranslateRequest(token, text) {
-    var from = "en",
-      to = "zh-CHS";
-    text = text || "";
-    token = encodeURIComponent(token); //.replace("%26", "&");
-    console.log("scriptTranslateRequest: " + token);
-
-    var url = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate" +
-      "?appId=Bearer " + token +
-      "&from=" + encodeURIComponent(from) +
-      "&to=" + encodeURIComponent(to) +
-      "&text=" + encodeURIComponent(text) +
-      "&oncomplete=mycallback";
-
-    console.log("URL: " + url);
-
-    var s = document.createElement("script");
-    s.src = url;
-    document.body.appendChild(s);
-  }
-
-  function ajaxTranslateRequest(token, text) {
-    var from = "en",
-      to = "zh-CHS";
-    text = text || "";
-    token = encodeURIComponent(token);
-
-    var url = "http://api.microsofttranslator.com/V2/Ajax.svc/Translate" +
-      "?appId=Bearer " + token +
-      "&from=" + encodeURIComponent(from) +
-      "&to=" + encodeURIComponent(to) +
-      "&text=" + encodeURIComponent(text) +
-      "&oncomplete=JSON_CALLBACK";
-
-    return $q(function(resolve, reject) {
-      $http.jsonp(url).success(function(data) {
-        console.log("Translation via JSONP: " + data);
-        resolve(data);
-      })
-    });
-  }
-
+.factory('Talk', ['translator', 'speaker', function(translator, speaker) {
   return {
-    translator: function(newWord, callback) {
-      newWord = newWord || "anything";
-      console.log("EN: " + newWord);
-
-      if (callback) {
-        window.mycallback = function(response) {
-          console.log("CN: " + response);
-          callback(response);
-        }
-        scriptTranslateRequest(bingAccessToken, newWord);
-        return;
-      }
-
-      return ajaxTranslateRequest(bingAccessToken, newWord);
-    }
-  };
-
+    "translate": translator.translate,
+    "speak": speaker.speak
+  }
 }])
 
 .factory('Stars', function() {

@@ -3,21 +3,25 @@
         <div class="list card">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" ng-change="input()" ng-model="newWord" placeholder="Touch to enter text" required>
+                <input type="text" ng-blur="translate()" ng-change="textChange()" ng-trim="false" ng-model="newWord" placeholder="Touch to enter text" required>
             </label>
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item" href="#">
+                <a class="tab-item" href="#" ng-click="translate()">
                     <i class="icon ion-android-search"></i>
                 </a>
                 <a class="tab-item" href="#">
                     <i class="icon ion-android-microphone"></i>
                 </a>
+                <a class="tab-item" href="#" ng-click="speak()">
+                    <i class="icon ion-android-volume-up"></i>
+                </a>
             </div>
         </div>
+        <embed src="{{newWordTranslationWav}}" hidden="true" autostart="true" loop="1">
         <div class="list card">
             <div class="item item-body">
                 <p style="min-height: 100px;">
-                    {{newWordTranslation.text}}
+                    {{newWordTranslation}}
                 </p>
                 <p>
                     <a href="#" class="subdued">1 Like</a>

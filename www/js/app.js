@@ -44,7 +44,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       'self',
       // Allow loading from out assets domain. Notice the difference between * and **.
       'http://api.microsofttranslator.com/**',
-      'https://datamarket.accesscontrol.windows.net'
+      'https://datamarket.accesscontrol.windows.net/**'
     ]);
 
 

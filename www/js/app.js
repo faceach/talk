@@ -7,7 +7,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .constant('ApiEndpoint', {
   //url: "http://localhost:8100/api/"
-  url: "http://faceach.github.io/talk/www/"
+  //url: "http://faceach.github.io/talk/www/"
 })
 
 .directive('videoLoad', function() {

@@ -6,7 +6,7 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .constant('ApiEndpoint', {
-  //url: 'http://localhost:8100/api'
+  url: 'http://localhost:8100/api'
 })
 
 .directive('videoLoad', function() {
@@ -41,7 +41,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     $sceDelegateProvider.resourceUrlWhitelist([
       // Allow same origin resource loads.
       'self',
-      // Allow loading from our assets domain. Notice the difference between * and **.
+      // Allow loading from out assets domain. Notice the difference between * and **.
       'http://api.microsofttranslator.com/**'
     ]);
 

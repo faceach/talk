@@ -43,7 +43,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // Allow same origin resource loads.
       'self',
       // Allow loading from out assets domain. Notice the difference between * and **.
-      'http://api.microsofttranslator.com/**'
+      'http://api.microsofttranslator.com/**',
+      'https://datamarket.accesscontrol.windows.net'
     ]);
 
 

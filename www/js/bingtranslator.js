@@ -1,6 +1,6 @@
 angular.module('bingTranslator', [])
   .factory('accessToken', ['$http', '$q', 'ApiEndpoint', function($http, $q, ApiEndpoint) {
-    var DATA_MARKET_ACCESS_URI = ApiEndpoint.url + "/bingtranslator";
+    var DATA_MARKET_ACCESS_URI = ApiEndpoint.url ? (ApiEndpoint.url + "/bingtranslator") : "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
     var CLIENT_ID = "watermelon2014";
     var CLIENT_SECRET = "hiO/nuX1pjnk/m5+Ylwx8pBLavjoU09qc3Y2tY68CzQ=";
     var REQUEST_BODY = "grant_type=client_credentials" +
@@ -109,6 +109,8 @@ angular.module('bingTranslator', [])
       // Set defaults;
       text = text || "";
       language = language || "en";
+
+      console.log("Token: " + encodeURIComponent(token));
 
       var url = "http://api.microsofttranslator.com/V2/Ajax.svc/Speak" +
         "?appId=Bearer " + encodeURIComponent(token) +

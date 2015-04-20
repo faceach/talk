@@ -17,7 +17,9 @@
                 </a>
             </div>
         </div>
-        <embed src="{{newWordTranslationWav}}" hidden="true" autostart="true" loop="1">
+        <video controls autoplay name="media" video-load="load" style="display: none;">
+            <source ng-src="{{newWordTranslationWav}}" type="audio/x-wav">
+        </video>
         <div class="list card">
             <div class="item item-body">
                 <p style="min-height: 100px;">

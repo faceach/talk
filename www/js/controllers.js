@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('TalkCtrl', function($scope, Talk) {
-	$scope.newWord = "";
+	$scope.oldWord = "";
 	$scope.newWordTranslation = "";
 	$scope.newWordTranslationWav = "";
 
@@ -9,10 +9,10 @@ angular.module('starter.controllers', [])
 		var me = $scope;
 		text = text.trim();
 
-		if(text === me.newWord){
+		if(text === me.oldWord){
 			return;
 		}
-		me.newWord = text;
+		me.oldWord = text;
 
 		Talk.translate(text).then(function(translation) {
 			console.log("Translator callback: " + translation);
@@ -47,6 +47,8 @@ angular.module('starter.controllers', [])
 			console.log("Speaker callback: " + waveStream);
 			// Play
 			me.newWordTranslationWav = waveStream;
+
+			me.$broadcast('load');
 		});
 	};
 

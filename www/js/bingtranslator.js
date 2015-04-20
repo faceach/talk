@@ -116,8 +116,8 @@ angular.module('bingTranslator', [])
         "?appId=Bearer " + encodeURIComponent(token) +
         "&text=" + encodeURIComponent(text) +
         "&language=" + encodeURIComponent(language) +
-        "&format=" + "audio/wav" +
-        "&options=" + "MaxQuality" +
+        "&format=" + "audio/mp3" +
+        "&options=" + "MinSize" +
         "&oncomplete=JSON_CALLBACK";
 
       return $q(function(resolve, reject) {

@@ -32,14 +32,16 @@ angular.module('talk.controllers', [])
 	$scope.textChange = function() {
 		var me = $scope;
 		var inputs = me.$$childHead.newWord;
+		var keyChars = " ;,.?!~"
 
 		if (!inputs) {
 			me.newWordTranslation = "";
 			return;
 		}
 
+		var lastChar = inputs.slice(-1);
 		// type a space
-		if (inputs.lastIndexOf(' ') + 1 === inputs.length) {
+		if (keyChars.indexOf(lastChar) >= 0) {
 			renderTranslation(inputs);
 		}
 	};

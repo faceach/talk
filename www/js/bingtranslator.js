@@ -1,6 +1,13 @@
 angular.module('bingTranslator', [])
   .factory('accessToken', ['$http', '$q', 'ApiEndpoint', function($http, $q, ApiEndpoint) {
-    var DATA_MARKET_ACCESS_URI = ApiEndpoint.url ? (ApiEndpoint.url + "/bingtranslator") : "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+
+    var DATA_MARKET_ACCESS_URI;
+    if (location && location.origin && location.origin === ApiEndpoint.url) {
+      DATA_MARKET_ACCESS_URI = ApiEndpoint.url + "/api/bingtranslator";
+    } else {
+      DATA_MARKET_ACCESS_URI = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+    }
+
     var CLIENT_ID = "watermelon2014";
     var CLIENT_SECRET = "hiO/nuX1pjnk/m5+Ylwx8pBLavjoU09qc3Y2tY68CzQ=";
     var REQUEST_BODY = "grant_type=client_credentials" +
@@ -20,35 +27,37 @@ angular.module('bingTranslator', [])
     };
 
     var bingAccessToken;
+    (function fetchAccessToken() {
+      var deferred = $q.defer();
+
+      $http(req).success(function(data, status, headers, config) {
+        if (!data) {
+          deferred.reject("Obtaining access token failed.");
+        }
+        var expires_in = data.expires_in;
+        var access_token = bingAccessToken = data.access_token;
+
+        setTimeout(fetchAccessToken, (expires_in - PRE_REFRESH_TOKEN_DURATION) * 1000);
+
+        deferred.resolve(access_token);
+      }).error(function(data, status, headers, config) {
+        deferred.reject("Obtaining access token failed. [" + status + "]");
+      });
+
+      return deferred.promise;
+    })();
     // fn().then(function(bingAccessToken){...})
-    var obtainingAccessToken = $q(function(resolve, reject) {
-
-      function fetchAccessToken() {
-        var deferred = $q.defer();
-
-        $http(req).success(function(data, status, headers, config) {
-          if (!data) {
-            deferred.reject("Obtaining access token failed.");
-          }
-          var expires_in = data.expires_in;
-          var access_token = bingAccessToken = data.access_token;
-
-          setTimeout(fetchAccessToken, (expires_in - PRE_REFRESH_TOKEN_DURATION) * 1000);
-
-          deferred.resolve(access_token);
-        }).error(function(data, status, headers, config) {
-          deferred.reject("Obtaining access token failed. [" + status + "]");
-        });
-
-        return deferred.promise;
-      }
+    var obtainingAccessToken = function() {
+      var deferred = $q.defer();
 
       if (bingAccessToken) {
-        resolve(bingAccessToken);
+        deferred.resolve(bingAccessToken);
       } else {
-        resolve(fetchAccessToken());
+        return fetchAccessToken();
       }
-    });
+
+      return deferred.promise;
+    };
 
     return {
       "obtaining": obtainingAccessToken
@@ -88,7 +97,7 @@ angular.module('bingTranslator', [])
       to = to || "en";
       text = text || "";
 
-      return accessToken.obtaining.then(function(token) {
+      return accessToken.obtaining().then(function(token) {
         return ajaxTranslateRequest(token, text, from, to);
       });
 
@@ -133,7 +142,7 @@ angular.module('bingTranslator', [])
       text = text || "";
       language = language || "en";
 
-      return accessToken.obtaining.then(function(token) {
+      return accessToken.obtaining().then(function(token) {
         return ajaxSpeakerRequest(token, text, language);
       });
 

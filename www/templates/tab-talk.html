@@ -3,7 +3,7 @@
         <div class="list card">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" ng-blur="translate()" ng-change="textChange()" ng-trim="false" ng-model="newWord" placeholder="Touch to enter text" required>
+                <input type="text" ng-blur="translate()" ng-change="textChange()" ng-enter="translate()" ng-trim="false" ng-model="newWord" placeholder="Touch to enter text" required>
             </label>
             <div class="item tabs tabs-secondary tabs-icon-left">
                 <a class="tab-item" href="#" ng-click="translate()">
@@ -17,24 +17,21 @@
                 </a>
             </div>
         </div>
-        <video controls autoplay name="media" video-load="load" >
-            <source ng-src="{{newWordTranslationWav}}" type="audio/x-wav">
-        </video>
         <div class="list card">
             <div class="item item-body">
                 <p style="min-height: 100px;">
                     {{newWordTranslation}}
                 </p>
                 <p>
-                    <a href="#" class="subdued">1 Like</a>
-                    <a href="#" class="subdued">5 Collect</a>
+                    <a href="#" class="subdued">{{numLike}} Like</a>
+                    <a href="#" class="subdued">{{numCollect}} Collect</a>
                 </p>
             </div>
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item" href="#">
+                <a class="tab-item" href="#" ng-click="numLike = numLike + 1" ng-init="numLike=0">
                     <i class="icon ion-thumbsup"></i> Like
                 </a>
-                <a class="tab-item" href="#">
+                <a class="tab-item" href="#" ng-click="numCollect = numCollect + 1" ng-init="numCollect=0">
                     <i class="icon ion-ios-star"></i> Collect
                 </a>
                 <a class="tab-item" href="#">
@@ -42,5 +39,8 @@
                 </a>
             </div>
         </div>
+        <audio ng-src="{{newWordTranslationWav}}" autoplay name="media" video-load="load" width="200" height="100" webkit-playsinline>
+        </audio>
+        <!--iframe ng-src="{{newWordTranslationWav}}" width="1" height="1" hidden></iframe-->
     </ion-content>
 </ion-view>

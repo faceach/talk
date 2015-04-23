@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('talk.controllers', [])
 
 .controller('TalkCtrl', function($scope, Talk) {
 	$scope.oldWord = "";
@@ -7,9 +7,12 @@ angular.module('starter.controllers', [])
 
 	function renderTranslation(text) {
 		var me = $scope;
+		if (!text) {
+			return;
+		}
 		text = text.trim();
 
-		if(text === me.oldWord){
+		if (text === me.oldWord) {
 			return;
 		}
 		me.oldWord = text;
@@ -45,12 +48,46 @@ angular.module('starter.controllers', [])
 
 		Talk.speak(me.newWordTranslation).then(function(waveStream) {
 			console.log("Speaker callback: " + waveStream);
-			// Play
-			me.newWordTranslationWav = waveStream;
 
-			me.$broadcast('load');
+			setTimeout(function() {
+				playAudio(waveStream);
+			}, 1000);
 		});
 	};
+
+	// Play audio
+	//
+	function playAudio(url) {
+		var me = $scope;
+
+		// Web browser compatibility
+		if (typeof Media === "undefined") {
+			me.newWordTranslationWav = url;
+			// Play in web browser
+			me.$broadcast('load');
+			return;
+		}
+		/*$ionicPlatform.ready(function() {
+			// Play the audio file at url
+			// Play in Apps
+			var my_media = $cordovaMedia.newMedia(url).then(function() {
+				// success
+			}, function() {
+				// error
+			});
+
+			my_media.play();
+		});*/
+
+		// Play the audio file at url
+		// Play in Apps
+		var my_media = new Media(url,
+			function(success) {},
+			function(error) {},
+			function(status) {});
+
+		my_media.play();
+	}
 
 })
 

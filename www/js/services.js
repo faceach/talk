@@ -1,4 +1,4 @@
-angular.module('starter.services', ['bingTranslator'])
+angular.module('talk.services', ['bingTranslator'])
 
 .factory('Talk', ['translator', 'speaker', function(translator, speaker) {
   return {

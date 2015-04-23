@@ -3,23 +3,41 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('talk', ['ionic', 'talk.controllers', 'talk.services'])
 
 .constant('ApiEndpoint', {
-  //url: "http://localhost:8100/api"
+  url: "http://localhost:8100"
 })
 
 .directive('videoLoad', function() {
   return {
     "link": function(scope, element, attrs) {
       scope.$on(attrs.videoLoad, function(e) {
+        var myAudio = element[0];
         setTimeout(function() {
-          console.log("Video load event trigged.")
-          element[0].load();
+          console.log("Audio load event trigged.")
+          myAudio.load();
         });
       })
     }
   }
+})
+
+.directive('ngEnter', function() {
+  /*
+  This directive allows us to pass a function in on an enter key to do what we want.
+   */
+  return function(scope, element, attrs) {
+    element.bind("keydown keypress", function(event) {
+      if (event.which === 13) {
+        scope.$apply(function() {
+          scope.$eval(attrs.ngEnter);
+        });
+
+        event.preventDefault();
+      }
+    });
+  };
 })
 
 .run(function($ionicPlatform) {
@@ -42,8 +60,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // Allow same origin resource loads.
       'self',
       // Allow loading from out assets domain. Notice the difference between * and **.
-      'http://api.microsofttranslator.com/**',
-      'https://datamarket.accesscontrol.windows.net/**'
+      'http://api.microsofttranslator.com/**'
     ]);
 
 
